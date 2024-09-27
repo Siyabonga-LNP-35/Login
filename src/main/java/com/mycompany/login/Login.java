@@ -57,5 +57,13 @@ public class Login {
          return enteredUsername.equals(this.username) && enteredPassword.equals(this.password);
          
      }
-     
+          //Method to return login status
+     public String returnLoginStatus(boolean isLoggedIn){
+        if (isLoggedIn) {
+            return "Welcome " + this.firstName + "  " + this.lastName + ",it is great  to see you again.";
+        }else {
+            return "Username or password incorrect, please try again.";
+            
+        }
+     }
 }
