@@ -23,8 +23,7 @@ public class Login {
         this.username = username;
         this.password = password;
     }
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
+
     // Method to check the username format
     public boolean checkUserName() {
         return username.contains("_") && username.length() <= 5;

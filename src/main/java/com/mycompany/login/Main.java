@@ -4,7 +4,7 @@
  */
 package com.mycompany.login;
 
-import java.util.Scanner
+import java.util.Scanner;
 /**
  *
  * @author RC_Student_lab
