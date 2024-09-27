@@ -54,4 +54,52 @@ public class LoginTest {
         Login login = new Login("Alice", "Smith", "user_", "password123!");
         assertFalse(login.checkPasswordComplexity(), "Password should be invalid without a capital letter");
     }
+     // Testing invalid password (less than 8 characters)
+    @Test
+    public void testCheckPasswordComplexity_TooShort() {
+        Login login = new Login("Alice", "Smith", "user_", "Pas12!");
+        assertFalse(login.checkPasswordComplexity(), "Password should be invalid if less than 8 characters");
+    }
+   
+     // Testing registration with valid username and password
+    @Test
+    public void testRegisterUser_Valid() {
+        Login login = new Login("John", "Doe", "user_", "Password123!");
+        assertEquals("Username and password successfully captured.", login.registerUser(), "Successful registration message mismatch");
+    }
+    // Testing registration with invalid username
+    @Test
+    public void testRegisterUser_InvalidUsername() {
+        Login login = new Login("Alice", "Smith", "userlong", "Password123!");
+        assertEquals("Username is not correctly formatted, please ensure that the username contains an underscore and is no more than 5 characters in length.", login.registerUser());
+    }
+    // Testing registration with invalid password
+    @Test
+    public void testRegisterUser_InvalidPassword() {
+        Login login = new Login("Alice", "Smith", "user_", "password");
+        assertEquals("Password is not correctly formatted, please ensure that the password contains at least 8 characters, a capital letter, a number, and special character.", login.registerUser());
+    }
+   
+    // Testing successful login
+    @Test
+    public void testLoginUser_Success() {
+        Login login = new Login("Alice", "Smith", "user_", "Password123!");
+        login.registerUser();
+        assertTrue(login.loginUser("user_", "Password123!"), "Login should succeed with correct credentials");
+    }
+   
+     // Testing failed login (wrong username)
+    @Test
+    public void testLoginUser_InvalidUsername() {
+        Login login = new Login("Alice", "Smith", "user_", "Password123!");
+        login.registerUser();
+        assertFalse(login.loginUser("wrong_user", "Password123!"), "Login should fail with incorrect username");
+    }
+    // Testing failed login (wrong password)
+    @Test
+    public void testLoginUser_InvalidPassword() {
+        Login login = new Login("Alice", "Smith", "user_", "Password123!");
+        login.registerUser();
+        assertFalse(login.loginUser("user_", "WrongPassword"), "Login should fail with incorrect password");
+    }
 }
