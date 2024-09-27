@@ -23,7 +23,7 @@ public class Login {
         this.username = username;
         this.password = password;
     }
- public static void main(String[] args) {
+    public static void main(String[] args) {
         System.out.println("Hello World!");
     // Method to check the username format
     public boolean checkUserName() {
@@ -42,6 +42,17 @@ public class Login {
         }
         return false;
     }
+     //Method to register user 
+    
+    public String  registerUser(){
+        if (!checkUserName()){
+            return "Username is not correctly formatted, please ensure that the usename contains an underscore and is no more than 5 characters in length.";         
+        }else if (!checkPasswordComplexity()){
+            return "Password is not correctly formatted, please ensure that the password contains at least 8 characters, a capital letter, a number, and spercial character.";
+        }
+        return "Username and password successfully captured.";
+    }
+    
 }
 
 
