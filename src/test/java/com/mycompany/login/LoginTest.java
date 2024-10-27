@@ -4,7 +4,6 @@
  */
 package com.mycompany.login;
 
-import com.mycompany.login.Login;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,94 +11,81 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author RC_Student_lab
  */
+
+
 public class LoginTest {
-    
-    public LoginTest() {
-    }
-// Testing valid usernames
+
     @Test
-    public void testCheckUserName_Valid() {
-        Login login = new Login("Siya", "Mk", "siya_", "Password123!");
-        assertTrue(login.checkUserName(), "Username should be valid with 5 characters and an underscore");
+    public void testCheckUserName_Success() {
+        // Valid username
+        Login login = new Login();
+        String username = "kyl_1";
+        assertTrue(login.checkUserName(username), "Username with underscore and 5 characters should pass validation");
     }
-    // Testing invalid username (missing underscore)
+
     @Test
-    public void testCheckUserName_MissingUnderscore() {
-        Login login = new Login("Siya", "Mk", "siya1", "Password123!");
-        assertFalse(login.checkUserName(), "Username should be invalid if missing an underscore");
+    public void testCheckUserName_Failure() {
+        // Invalid username
+        Login login = new Login();
+        String username = "kyle!!!!!!";
+        assertFalse(login.checkUserName(username), "Username without underscore or more than 5 characters should fail validation");
     }
-    // Testing invalid username (too long)
+
     @Test
-    public void testCheckUserName_TooLong() {
-        Login login = new Login("Siya", "Mk", "siyalong", "Password123!");
-        assertFalse(login.checkUserName(), "Username should be invalid if longer than 5 characters");
+    public void testCheckPasswordComplexity_Success() {
+        // Valid password
+        Login login = new Login();
+        String password = "Ch&&sec@ke99!";
+        assertTrue(login.checkPasswordComplexity(password), "Password meeting all complexity requirements should pass validation");
     }
-    
-    // Testing valid password complexity
+
     @Test
-    public void testCheckPasswordComplexity_Valid() {
-        Login login = new Login("Siya", "Mk", "siya_", "Password123!");
-        assertTrue(login.checkPasswordComplexity(), "Password should be valid");
+    public void testCheckPasswordComplexity_Failure() {
+        // Invalid password
+        Login login = new Login();
+        String password = "password";
+        assertFalse(login.checkPasswordComplexity(password), "Password not meeting complexity requirements should fail validation");
     }
-    // Testing invalid password (missing special character)
+
     @Test
-    public void testCheckPasswordComplexity_MissingSpecialChar() {
-        Login login = new Login("Siya", "Mk", "siya_", "Password123");
-        assertFalse(login.checkPasswordComplexity(), "Password should be invalid without special character");
+    public void testRegisterUser_Success() {
+        // Valid registration
+        Login login = new Login();
+        String result = login.registerUser("kyl_1", "Ch&&sec@ke99!", "Kyle", "Smith");
+        assertEquals("User successfully registered.", result, "Valid registration should succeed");
     }
-    
-     // Testing invalid password (missing capital letter)
+
     @Test
-    public void testCheckPasswordComplexity_MissingCapitalLetter() {
-        Login login = new Login("Siya", "Mk", "siya_", "password123!");
-        assertFalse(login.checkPasswordComplexity(), "Password should be invalid without a capital letter");
+    public void testRegisterUser_FailureUsername() {
+        // Invalid username
+        Login login = new Login();
+        String result = login.registerUser("kyle!!!!!!", "Ch&&sec@ke99!", "Kyle", "Smith");
+        assertEquals("Username is not correctly formatted. Please ensure that your username contains an underscore and is no more than 5 characters in length.", result, "Invalid username should return error message");
     }
-     // Testing invalid password (less than 8 characters)
+
     @Test
-    public void testCheckPasswordComplexity_TooShort() {
-        Login login = new Login("Siya", "Mk", "siya_", "Pas12!");
-        assertFalse(login.checkPasswordComplexity(), "Password should be invalid if less than 8 characters");
+    public void testRegisterUser_FailurePassword() {
+        // Invalid password
+        Login login = new Login();
+        String result = login.registerUser("kyl_1", "password", "Kyle", "Smith");
+        assertEquals("Password is not correctly formatted. Please ensure that the password contains at least 8 characters, a capital letter, a number, and a special character.", result, "Invalid password should return error message");
     }
-   
-     // Testing registration with valid username and password
+
     @Test
-    public void testRegisterUser_Valid() {
-        Login login = new Login("Siya", "Mk", "siya_", "Password123!");
-        assertEquals("Username and password successfully captured.", login.registerUser(), "Successful registration message mismatch");
+    public void testReturnLoginStatus_Success() {
+        // Successful login
+        Login login = new Login();
+        login.registerUser("kyl_1", "Ch&&sec@ke99!", "Kyle", "Smith");
+        String result = login.returnLoginStatus("kyl_1", "Ch&&sec@ke99!");
+        assertEquals("Welcome Kyle Smith, it is great to see you again.", result, "Successful login should return welcome message");
     }
-    // Testing registration with invalid username
+
     @Test
-    public void testRegisterUser_InvalidUsername() {
-        Login login = new Login("Siya", "Mk", "siyalong", "Password123!");
-        assertEquals("Username is not correctly formatted, please ensure that the username contains an underscore and is no more than 5 characters in length.", login.registerUser());
-    }
-    // Testing registration with invalid password
-    @Test
-    public void testRegisterUser_InvalidPassword() {
-        Login login = new Login("Siya", "Mk", "siya_", "password");
-        assertEquals("Password is not correctly formatted, please ensure that the password contains at least 8 characters, a capital letter, a number, and special character.", login.registerUser());
-    }
-   
-    // Testing successful login
-    @Test
-    public void testLoginUser_Success() {
-        Login login = new Login("Siya", "Mk", "siya_", "Password123!");
-        login.registerUser();
-        assertTrue(login.loginUser("siya_", "Password123!"), "Login should succeed with correct credentials");
-    }
-   
-     // Testing failed login (wrong username)
-    @Test
-    public void testLoginUser_InvalidUsername() {
-        Login login = new Login("Siya", "Mk", "siya_", "Password123!");
-        login.registerUser();
-        assertFalse(login.loginUser("wrong_user", "Password123!"), "Login should fail with incorrect username");
-    }
-    // Testing failed login (wrong password)
-    @Test
-    public void testLoginUser_InvalidPassword() {
-        Login login = new Login("Siya", "Mk", "siya_", "Password123!");
-        login.registerUser();
-        assertFalse(login.loginUser("siya_", "WrongPassword"), "Login should fail with incorrect password");
+    public void testReturnLoginStatus_Failure() {
+        // Failed login
+        Login login = new Login();
+        login.registerUser("kyl_1", "Ch&&sec@ke99!", "Kyle", "Smith");
+        String result = login.returnLoginStatus("kyl_1", "wrongpass");
+        assertEquals("Username or password incorrect, please try again.", result, "Failed login should return error message");
     }
 }

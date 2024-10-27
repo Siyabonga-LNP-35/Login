@@ -9,60 +9,48 @@ package com.mycompany.login;
  * @author RC_Student_lab
  */
 public class Login {
-      //Declarations 
-    
-   private final String firstName;
-   private final String lastName;
-   private final String username;
-   private final String password;
-   
-   // Prompt user for information
-    public Login(String firstName, String lastName, String username, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.password = password;
-    }
+    private String storedUsername;
+    private String storedPassword;
+    private String firstName;
+    private String lastName;
 
-    // Method to check the username format
-    public boolean checkUserName() {
+    // Constructor
+    public Login() {}
+
+    public boolean checkUserName(String username) {
         return username.contains("_") && username.length() <= 5;
     }
-    // Method to check password complexity
-    public boolean checkPasswordComplexity() {
-        boolean hasUpperCase = false, hasDigit = false, hasSpecialChar = false;
-        if (password.length() >= 8) {
-            for (char c : password.toCharArray()) {
-                if (Character.isUpperCase(c)) hasUpperCase = true;
-                if (Character.isDigit(c)) hasDigit = true;
-                if (!Character.isLetterOrDigit(c)) hasSpecialChar = true;
-            }
-            return hasUpperCase && hasDigit && hasSpecialChar;
-        }
-        return false;
+
+    public boolean checkPasswordComplexity(String password) {
+        return password.length() >= 8 &&
+               password.matches(".*[A-Z].*") &&
+               password.matches(".*\\d.*") &&
+               password.matches(".*[!@#$%^&*].*");
     }
-     //Method to register user 
-    
-    public String  registerUser(){
-        if (!checkUserName()){
-            return "Username is not correctly formatted, please ensure that the username contains an underscore and is no more than 5 characters in length.";         
-        }else if (!checkPasswordComplexity()){
-            return "Password is not correctly formatted, please ensure that the password contains at least 8 characters, a capital letter, a number, and special character.";
+
+    public String registerUser(String username, String password, String firstName, String lastName) {
+        if (!checkUserName(username)) {
+            return "Username is not correctly formatted. Please ensure that your username contains an underscore and is no more than 5 characters in length.";
         }
-        return "Username and password successfully captured.";
+        if (!checkPasswordComplexity(password)) {
+            return "Password is not correctly formatted. Please ensure that the password contains at least 8 characters, a capital letter, a number, and a special character.";
+        }
+        this.storedUsername = username;
+        this.storedPassword = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        return "User successfully registered.";
     }
-          //Method to verify User login Details 
-     public boolean loginUser(String enteredUsername, String enteredPassword){
-         return enteredUsername.equals(this.username) && enteredPassword.equals(this.password);
-         
-     }
-          //Method to return login status
-     public String returnLoginStatus(boolean isLoggedIn){
-        if (isLoggedIn) {
-            return "Welcome " + this.firstName + "  " + this.lastName + ",it is great  to see you again.";
-        }else {
+
+    public boolean loginUser(String username, String password) {
+        return username.equals(storedUsername) && password.equals(storedPassword);
+    }
+
+    public String returnLoginStatus(String username, String password) {
+        if (loginUser(username, password)) {
+            return "Welcome " + firstName + " " + lastName + ", it is great to see you again.";
+        } else {
             return "Username or password incorrect, please try again.";
-            
         }
-     }
+    }
 }
