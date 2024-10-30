@@ -14,18 +14,19 @@ public class Main {
 
     /**
      * @param args the command line arguments
+     * Main method to start the application.
      */
-    public static void main(String[] args) {
-        Login login = new Login();
-        ArrayList<Task> taskList = new ArrayList<>();
-        int totalHours = 0;
+     public static void main(String[] args) {
+        Login login = new Login(); // Create login instance
+        ArrayList<Task> taskList = new ArrayList<>(); // List to store tasks
+        int totalHours = 0; // Total hours for all tasks
 
-        // Registration
+        // Register the user
         String username = JOptionPane.showInputDialog("Enter username (must contain an underscore and no more than 5 characters):");
         String password = JOptionPane.showInputDialog("Enter password (must contain 8 characters, a capital letter, a number, and a special character):");
         String firstName = JOptionPane.showInputDialog("Enter your first name:");
         String lastName = JOptionPane.showInputDialog("Enter your last name:");
-
+    // Exit if registration fails
         String registrationMessage = login.registerUser(username, password, firstName, lastName);
         JOptionPane.showMessageDialog(null, registrationMessage);
 
@@ -33,13 +34,13 @@ public class Main {
             System.exit(0);
         }
 
-        // Login
+    // Prompt user to log in
         username = JOptionPane.showInputDialog("Enter your username to log in:");
         password = JOptionPane.showInputDialog("Enter your password to log in:");
-
+     // Show login status
         String loginMessage = login.returnLoginStatus(username, password);
         JOptionPane.showMessageDialog(null, loginMessage);
-
+     // Exit if login fails
         if (loginMessage.contains("incorrect")) {
             System.exit(0);
         }
@@ -50,7 +51,7 @@ public class Main {
             String option = (String) JOptionPane.showInputDialog(null, "Welcome to EasyKanban. Please select an option:\n1. Add Task\n2. Show Report (Coming Soon)\n3. Quit", "Menu", JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
             switch (option) {
-                case "1":
+                case "1": // Add tasks
                     int numTasks = Integer.parseInt(JOptionPane.showInputDialog("How many tasks would you like to add?"));
                     for (int i = 0; i < numTasks; i++) {
                         String taskName = JOptionPane.showInputDialog("Enter task name:");
@@ -67,23 +68,23 @@ public class Main {
                         // Create and store the task
                         Task task = new Task(taskName, taskDescription, developerDetails, taskDuration, taskStatus);
                         taskList.add(task);
-                        totalHours += taskDuration;
+                        totalHours += taskDuration;// Update total hours
 
-                        task.printTaskDetails();
+                        task.printTaskDetails();// Print task details
                     }
                     JOptionPane.showMessageDialog(null, "Total task duration: " + totalHours + " hours.");
                     break;
 
-                case "2":
+                case "2": // Show report (placeholder)
                     JOptionPane.showMessageDialog(null, "Coming Soon");
                     break;
 
-                case "3":
+                case "3": // Exit application
                     JOptionPane.showMessageDialog(null, "Exiting application.");
                     System.exit(0);
                     break;
 
-                default:
+                default: // Handle invalid options
                     JOptionPane.showMessageDialog(null, "Invalid option, please try again.");
                     break;
             }

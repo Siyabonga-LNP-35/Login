@@ -9,17 +9,24 @@ package com.mycompany.login;
  * @author RC_Student_lab
  */
 public class Login {
-    private String storedUsername;
-    private String storedPassword;
-    private String firstName;
-    private String lastName;
+    private String storedUsername; // Registered username
+    private String storedPassword; // Registered password
+    private String firstName;      // User's first name
+    private String lastName;       // User's last name
 
-    // Constructor
+    // Default constructor
     public Login() {}
-
+/**
+     * Checks if the username is valid.
+     * Username must contain an underscore and be 5 characters or less.
+     */
     public boolean checkUserName(String username) {
         return username.contains("_") && username.length() <= 5;
     }
+    /**
+     * Checks if the password is strong.
+     * Password must be at least 8 characters, with a capital letter, a number, and a special character.
+     */
 
     public boolean checkPasswordComplexity(String password) {
         return password.length() >= 8 &&
@@ -27,7 +34,10 @@ public class Login {
                password.matches(".*\\d.*") &&
                password.matches(".*[!@#$%^&*].*");
     }
-
+/**
+     * Registers the user if the username and password are valid.
+     * Stores the username, password, and user's first and last name.
+     */
     public String registerUser(String username, String password, String firstName, String lastName) {
         if (!checkUserName(username)) {
             return "Username is not correctly formatted. Please ensure that your username contains an underscore and is no more than 5 characters in length.";
@@ -41,11 +51,15 @@ public class Login {
         this.lastName = lastName;
         return "User successfully registered.";
     }
-
+    /**
+     * Checks if the entered username and password match the stored ones.
+     */
     public boolean loginUser(String username, String password) {
         return username.equals(storedUsername) && password.equals(storedPassword);
     }
-
+/**
+     * Returns a welcome message if login is successful, otherwise an error message.
+     */
     public String returnLoginStatus(String username, String password) {
         if (loginUser(username, password)) {
             return "Welcome " + firstName + " " + lastName + ", it is great to see you again.";
