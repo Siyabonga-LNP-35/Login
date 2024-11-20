@@ -3,68 +3,72 @@
  */
 
 package com.mycompany.login;
+import javax.swing.*;
 
 /**
- *
- * @author RC_Student_lab
+ * Represents a task with relevant details and functionality.
+ * Author: RC_Student_lab
  */
+
 public class Login {
-    private String storedUsername; // Registered username
-    private String storedPassword; // Registered password
-    private String firstName;      // User's first name
-    private String lastName;       // User's last name
+    private String username;
+    private String password;
+   
 
-    // Default constructor
-    public Login() {}
-/**
-     * Checks if the username is valid.
-     * Username must contain an underscore and be 5 characters or less.
-     */
-    public boolean checkUserName(String username) {
-        return username.contains("_") && username.length() <= 5;
-    }
     /**
-     * Checks if the password is strong.
-     * Password must be at least 8 characters, with a capital letter, a number, and a special character.
+     * Prompts the user to register by entering a username, password, first name, and last name.
+     * Validates the username and password according to the specified requirements.
+     * @return true if the registration is successful; false otherwise.
      */
+    public boolean registerUser() {
+        // promt user for first name
+        
+        // Prompt user for username
+        username = JOptionPane.showInputDialog("Enter username (must contain '_' and be no longer than 5 characters):");
+        // Prompt user for password
+        password = JOptionPane.showInputDialog("Enter password (8 characters, 1 uppercase, 1 number, 1 special character):");
 
-    public boolean checkPasswordComplexity(String password) {
-        return password.length() >= 8 &&
-               password.matches(".*[A-Z].*") &&
-               password.matches(".*\\d.*") &&
-               password.matches(".*[!@#$%^&*].*");
-    }
-/**
-     * Registers the user if the username and password are valid.
-     * Stores the username, password, and user's first and last name.
-     */
-    public String registerUser(String username, String password, String firstName, String lastName) {
         if (!checkUserName(username)) {
-            return "Username is not correctly formatted. Please ensure that your username contains an underscore and is no more than 5 characters in length.";
+            JOptionPane.showMessageDialog(null, "Username is not correctly formatted.");
+            return false;
         }
+
         if (!checkPasswordComplexity(password)) {
-            return "Password is not correctly formatted. Please ensure that the password contains at least 8 characters, a capital letter, a number, and a special character.";
+            JOptionPane.showMessageDialog(null, "Password is not correctly formatted.");
+            return false;
         }
-        this.storedUsername = username;
-        this.storedPassword = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        return "User successfully registered.";
+
+        JOptionPane.showMessageDialog(null, "User registered successfully!");
+        return true;
     }
+
     /**
-     * Checks if the entered username and password match the stored ones.
+     * Prompts the user to log in by entering a username and password.
+     * Checks if the entered credentials match the registered username and password.
+     * @return true if login is successful; false otherwise.
      */
-    public boolean loginUser(String username, String password) {
-        return username.equals(storedUsername) && password.equals(storedPassword);
-    }
-/**
-     * Returns a welcome message if login is successful, otherwise an error message.
-     */
-    public String returnLoginStatus(String username, String password) {
-        if (loginUser(username, password)) {
-            return "Welcome " + firstName + " " + lastName + ", it is great to see you again.";
+    public boolean loginUser() {
+        // Prompt user for login credentials
+        String inputUsername = JOptionPane.showInputDialog("Enter username:");
+        String inputPassword = JOptionPane.showInputDialog("Enter password:");
+
+        if (username.equals(inputUsername) && password.equals(inputPassword)) {
+            JOptionPane.showMessageDialog(null, "Login successful!");
+            return true;
         } else {
-            return "Username or password incorrect, please try again.";
+            JOptionPane.showMessageDialog(null, "Username or password is incorrect.");
+            return false;
         }
+    }
+
+    private boolean checkUserName(String username) {
+        return username != null && username.contains("_") && username.length() <= 5;
+    }
+
+    private boolean checkPasswordComplexity(String password) {
+        return password != null && password.length() >= 8 &&
+               password.chars().anyMatch(Character::isUpperCase) &&
+               password.chars().anyMatch(Character::isDigit) &&
+               password.chars().anyMatch(ch -> "!@#$%^&*()".indexOf(ch) >= 0);
     }
 }

@@ -6,6 +6,10 @@ package com.mycompany.login;
 import javax.swing.*;
 import java.util.ArrayList;
 
+/**
+ * Represents a task with relevant details and functionality.
+ * Author: RC_Student_lab
+ */
 public class Main {
     // Lists to store task data
     private static final ArrayList<Task> tasks = new ArrayList<>();
