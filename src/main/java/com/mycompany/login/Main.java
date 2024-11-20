@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class Main {
     // Lists to store task data
-    private static final ArrayList<Task> tasks = new ArrayList<>();
+public static final ArrayList<Task> tasks = new ArrayList<>();
 
     public static void main(String[] args) {
         Login login = new Login();

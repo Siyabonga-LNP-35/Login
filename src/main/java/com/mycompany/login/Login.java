@@ -11,8 +11,8 @@ import javax.swing.*;
  */
 
 public class Login {
-    private String username;
-    private String password;
+    String username;
+    String password;
    
 
     /**
@@ -61,11 +61,11 @@ public class Login {
         }
     }
 
-    private boolean checkUserName(String username) {
+    public boolean checkUserName(String username) {
         return username != null && username.contains("_") && username.length() <= 5;
     }
 
-    private boolean checkPasswordComplexity(String password) {
+    public boolean checkPasswordComplexity(String password) {
         return password != null && password.length() >= 8 &&
                password.chars().anyMatch(Character::isUpperCase) &&
                password.chars().anyMatch(Character::isDigit) &&
